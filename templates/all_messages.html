@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jumbe Zote - Mfumo wa Ufuatiliaji</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .phone-header { background-color: #4CAF50; color: white; padding: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Jumbe Zote katika Mfumo</h2>
+    
+    {% for phone in phones %}
+        <div class="phone-header">
+            <h3>Namba: {{ phone.number }} | Jumbe Zilizopokelewa: {{ phone.sms_received }} | Jumbe Zilizotumwa: {{ phone.sms_sent }}</h3>
+        </div>
+        
+        <table>
+            <tr>
+                <th>Muda</th>
+                <th>Aina</th>
+                <th>Ujumbe</th>
+            </tr>
+            {% for message in phone.messages %}
+            <tr>
+                <td>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ message.message_type }}</td>
+                <td>{{ message.content }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+    
+    <br>
+    <a href="{{ url_for('dashboard') }}">Rudi kwenye Dashibodi</a>
+</body>
+</html>

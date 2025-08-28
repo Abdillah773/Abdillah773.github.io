@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashibodi - Device Tracker</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDummyKeyReplaceThisWithYourRealKey&libraries=places"></script>
+</head>
+<body>
+    <h2>Vifaa Vyako</h2>
+    <a href="{{ url_for('add_device') }}">Ongeza Kifaa Kipya</a> | 
+    <a href="{{ url_for('logout') }}">Toka</a>
+    <br><br>
+<a href="{{ url_for('all_messages') }}" style="color: green; font-weight: bold;">Angalia Jumbe Zote katika Mfumo</a>
+    <ul>
+        {% for device in devices %}
+            <li>
+                {{ device.name }} - {{ device.serial_number }} - 
+                Eneo: {{ device.location }}
+                <button onclick="showMap('{{ device.location }}')">Onyesha Ramani</button>
+                <a href="{{ url_for('view_device', device_id=device.id) }}">Angalia Maelezo</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div id="map" style="height:400px; width:100%; display:none;"></div>
+
+    <script>
+        function showMap(location) {
+            const mapDiv = document.getElementById("map");
+            mapDiv.style.display = "block";
+            
+            const coordinates = location.split(",");
+            const latLng = new google.maps.LatLng(parseFloat(coordinates[0]), parseFloat(coordinates[1]));
+            
+            const map = new google.maps.Map(mapDiv, {
+                zoom: 15,
+                center: latLng
+            });
+            
+            new google.maps.Marker({
+                position: latLng,
+                map: map
+            });
+        }
+    </script>
+</body>
+</html>

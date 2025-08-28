@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maelezo ya Kifaa</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>{{ device.name }} - {{ device.serial_number }}</h2>
+    <p><strong>Eneo:</strong> {{ device.location }}</p>
+    
+    <h3>Namba za Simu Zilizosajiliwa:</h3>
+    <table>
+        <tr>
+            <th>Namba ya Simu</th>
+            <th>Simu Zilizotumwa</th>
+            <th>Simu Zilizopokelewa</th>
+            <th>SMS Zilizotumwa</th>
+            <th>SMS Zilizopokelewa</th>
+            <th>Tarehe ya Usajili</th>
+            <th>Hali</th>
+        </tr>
+        {% for phone in device.phone_numbers %}
+        <tr>
+            <td>{{ phone.number }}</td>
+            <td>{{ phone.calls_made }}</td>
+            <td>{{ phone.calls_received }}</td>
+            <td>{{ phone.sms_sent }}</td>
+            <td>{{ phone.sms_received }}</td>
+            <td>{{ phone.date_registered.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ phone.status }}</td>
+            <td>
+    {{ phone.number }}
+    <a href="{{ url_for('view_messages', phone_id=phone.id) }}" style="margin-left: 10px; color: blue;">(Angalia Ujumbe)</a>
+</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <br>
+    <a href="{{ url_for('add_phone', device_id=device.id) }}">Ongeza Namba Mpya</a> | 
+    <a href="{{ url_for('dashboard') }}">Rudi kwenye Dashibodi</a>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jumbe za {{ phone.number }}</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Jumbe za: {{ phone.number }}</h2>
+    
+    <h3>Orodha ya Jumbe:</h3>
+    <table>
+        <tr>
+            <th>Muda</th>
+            <th>Aina</th>
+            <th>Ujumbe</th>
+        </tr>
+        {% for message in phone.messages %}
+        <tr>
+            <td>{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ message.message_type }}</td>
+            <td>{{ message.content }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <br>
+    <a href="{{ url_for('view_device', device_id=phone.device_id) }}">Rudi kwenye Kifaa</a> | 
+    <a href="{{ url_for('dashboard') }}">Rudi kwenye Dashibodi</a>
+</body>
+</html>

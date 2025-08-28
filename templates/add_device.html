@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ongeza Kifaa - Device Tracker</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Browser yako haitumii GPS!");
+            }
+        }
+        function showPosition(position) {
+            document.getElementById("location").value = 
+                position.coords.latitude + ", " + position.coords.longitude;
+        }
+    </script>
+</head>
+<body>
+    <h2>Ongeza Kifaa Kipya</h2>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Jina la Kifaa" required><br>
+        <input type="text" name="serial_number" placeholder="Namba ya Serial" required><br>
+        <input type="text" name="location" id="location" placeholder="Eneo (GPS/IP)" required>
+        <button type="button" onclick="getLocation()">Pata Eneo la GPS</button><br>
+        <button type="submit">Ongeza</button>
+    </form>
+</body>
+</html>
