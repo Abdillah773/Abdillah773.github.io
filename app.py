@@ -192,6 +192,34 @@ def all_messages():
     
     return render_template('all_messages.html', phones=all_phone_numbers)
 
+# Route ya kukamata SMS moja kwa moja
+@app.route('/webhook/sms', methods=['POST'])
+def sms_webhook():
+    try:
+        data = request.get_json()
+        if not data:
+            return 'No data received', 400
+
+        phone_number = data.get('from')
+        message_content = data.get('text', '')
+        message_type = 'received'
+
+        phone = PhoneNumber.query.filter_by(number=phone_number).first()
+        if phone:
+            new_message = Message(
+                content=message_content,
+                message_type=message_type,
+                phone_number_id=phone.id
+            )
+            db.session.add(new_message)
+            phone.sms_received += 1
+            db.session.commit()
+            return 'SMS imeingizwa kikamilifu', 200
+        else:
+            return 'Namba haijaandikishwa kwenye mfumo', 404
+    except Exception as e:
+        return f'Error: {str(e)}', 500
+
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
@@ -201,4 +229,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         create_default_user()
-    app.run(debug=True, port=5002)  # Badilisha port kuwa 5002
+    app.run(debug=True, port=5002)
