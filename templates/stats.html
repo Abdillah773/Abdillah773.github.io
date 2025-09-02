@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stats</title>
+</head>
+<body>
+    <h1>Takwimu za Vifaa Vyako</h1>
+
+    {% for device in devices %}
+        <h2>{{ device.name }} ({{ device.serial_number }})</h2>
+        <ul>
+            {% for phone in device.phone_numbers %}
+                <li>
+                    <strong>Namba:</strong> {{ phone.number }} <br>
+                    SMS Zilizotumwa: {{ phone.sms_sent }} <br>
+                    SMS Zilizopokelewa: {{ phone.sms_received }} <br>
+                    Simu Zilizopigwa: {{ phone.calls_made }} <br>
+                    Simu Zilizopokelewa: {{ phone.calls_received }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+    <a href="{{ url_for('dashboard') }}">⬅ Rudi Dashboard</a>
+</body>
+</html>
