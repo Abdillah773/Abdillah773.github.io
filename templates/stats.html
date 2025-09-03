@@ -1,34 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Takwimu za Simu</title>
+    <meta charset="UTF-8">
+    <title>Takwimu za Vifaa</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Takwimu za Vifaa Vyako</h1>
-    <a href="{{ url_for('dashboard') }}">⬅ Rudi Dashboard</a>
-    <hr>
+<div class="container mt-5">
+    <h2 class="mb-4">Takwimu za Vifaa Vyako</h2>
 
-    {% for device in devices %}
-        <h2>{{ device.name }} (Serial: {{ device.serial_number }})</h2>
-        <table border="1" cellpadding="5" cellspacing="0">
-            <tr>
-                <th>Namba</th>
-                <th>SMS Zilizotumwa</th>
-                <th>SMS Zilizopokelewa</th>
-                <th>Simu Zilizopigwa</th>
-                <th>Simu Zilizopokelewa</th>
-            </tr>
-            {% for phone in device.phone_numbers %}
-            <tr>
-                <td>{{ phone.number }}</td>
-                <td>{{ phone.sms_sent }}</td>
-                <td>{{ phone.sms_received }}</td>
-                <td>{{ phone.calls_made }}</td>
-                <td>{{ phone.calls_received }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <br>
-    {% endfor %}
+    {% if devices %}
+        {% for device in devices %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>{{ device.name }}</strong> - {{ device.serial_number }} - Eneo: {{ device.location }}
+                </div>
+                <div class="card-body">
+                    {% if device.phone_numbers %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Namba</th>
+                                    <th>SMS Zilizopokelewa</th>
+                                    <th>SMS Zilitumwa</th>
+                                    <th>Simu Zilizopokelewa</th>
+                                    <th>Simu Zilitumwa</th>
+                                    <th>Hali</th>
+                                    <th>Imesajiliwa Tarehe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for phone in device.phone_numbers %}
+                                    <tr>
+                                        <td>{{ phone.number }}</td>
+                                        <td>{{ phone.sms_received }}</td>
+                                        <td>{{ phone.sms_sent }}</td>
+                                        <td>{{ phone.calls_received }}</td>
+                                        <td>{{ phone.calls_made }}</td>
+                                        <td>{{ phone.status }}</td>
+                                        <td>{{ phone.date_registered.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Hakuna namba za simu zilizosajiliwa kwa kifaa hiki.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Hakuna vifaa vilivyopatikana.</p>
+    {% endif %}
+
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3">Rudi kwenye Dashboard</a>
+</div>
 </body>
 </html>
