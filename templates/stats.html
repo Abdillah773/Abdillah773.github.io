@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stats</title>
+    <title>Takwimu za Simu</title>
 </head>
 <body>
     <h1>Takwimu za Vifaa Vyako</h1>
+    <a href="{{ url_for('dashboard') }}">⬅ Rudi Dashboard</a>
+    <hr>
 
     {% for device in devices %}
-        <h2>{{ device.name }} ({{ device.serial_number }})</h2>
-        <ul>
+        <h2>{{ device.name }} (Serial: {{ device.serial_number }})</h2>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <tr>
+                <th>Namba</th>
+                <th>SMS Zilizotumwa</th>
+                <th>SMS Zilizopokelewa</th>
+                <th>Simu Zilizopigwa</th>
+                <th>Simu Zilizopokelewa</th>
+            </tr>
             {% for phone in device.phone_numbers %}
-                <li>
-                    <strong>Namba:</strong> {{ phone.number }} <br>
-                    SMS Zilizotumwa: {{ phone.sms_sent }} <br>
-                    SMS Zilizopokelewa: {{ phone.sms_received }} <br>
-                    Simu Zilizopigwa: {{ phone.calls_made }} <br>
-                    Simu Zilizopokelewa: {{ phone.calls_received }}
-                </li>
+            <tr>
+                <td>{{ phone.number }}</td>
+                <td>{{ phone.sms_sent }}</td>
+                <td>{{ phone.sms_received }}</td>
+                <td>{{ phone.calls_made }}</td>
+                <td>{{ phone.calls_received }}</td>
+            </tr>
             {% endfor %}
-        </ul>
+        </table>
+        <br>
     {% endfor %}
-
-    <a href="{{ url_for('dashboard') }}">⬅ Rudi Dashboard</a>
 </body>
 </html>
